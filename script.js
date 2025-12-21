@@ -213,3 +213,28 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+// Inisialisasi Swiper Portfolio
+const swiper = new Swiper('.portfolio-swiper', {
+    slidesPerView: 1,
+    spaceBetween: 20,
+    loop: true,
+    autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+    },
+    pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+    },
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+    // Pengaturan jumlah slide berdasarkan lebar layar
+    breakpoints: {
+        640: { slidesPerView: 1 },
+        768: { slidesPerView: 2 },
+        1024: { slidesPerView: 3 },
+    }
+});

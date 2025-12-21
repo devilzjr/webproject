@@ -508,3 +508,526 @@ img {
         left: 0;
     }
 }
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+
+/* --- 1. RESET & DASAR --- */
+* { margin: 0; padding: 0; box-sizing: border-box; text-decoration: none !important; }
+
+body { 
+    font-family: 'Montserrat', sans-serif; 
+    color: #333; 
+    background: #fff; 
+    overflow-x: hidden;
+    animation: fadeInPage 0.8s ease-in-out;
+}
+
+@keyframes fadeInPage { from { opacity: 0; } to { opacity: 1; } }
+
+/* --- 2. PRELOADER --- */
+#preloader { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    background: #fff; display: flex; justify-content: center; align-items: center; 
+    z-index: 10000; transition: 0.5s; 
+}
+
+.loader { 
+    width: 40px; height: 40px; border: 3px solid #f3f3f3; 
+    border-top: 3px solid #2c5a5e; border-radius: 50%; 
+    animation: spin 1s linear infinite; 
+}
+
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* --- 3. NAVBAR DESKTOP (STATIC & RELATIVE) --- */
+.main-nav { 
+    background: #fff; 
+    padding: 15px 5%; 
+    position: relative; /* Navbar diam di atas, tidak menimpa header */
+    z-index: 1000; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+}
+
+.nav-container { 
+    display: flex; align-items: center; justify-content: space-between; 
+    max-width: 1200px; margin: auto; 
+}
+
+.logo-area img { width: 140px; transition: 0.3s; }
+
+.nav-links { display: flex; list-style: none; gap: 25px; }
+
+.nav-links a { 
+    font-weight: 600; color: #444; font-size: 13px; 
+    text-transform: uppercase; transition: 0.3s; 
+}
+
+.nav-links a:hover { color: #2c5a5e; }
+
+.menu-toggle { display: none; font-size: 24px; cursor: pointer; color: #333; }
+
+/* Dropdown Desktop */
+.dropdown { position: relative; }
+
+.dropdown-content { 
+    display: none; position: absolute; background: #fff; min-width: 200px; 
+    top: 100%; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 10px 0; 
+    border-radius: 4px; border-top: 3px solid #2c5a5e; z-index: 1001;
+}
+
+.dropdown:hover .dropdown-content { display: block; }
+
+.dropdown-content li a { 
+    padding: 10px 20px !important; display: block; 
+    font-size: 12px; text-transform: none !important; 
+}
+
+/* --- 4. HERO SECTION --- */
+.hero-section { 
+    height: 60vh; position: relative; display: flex; 
+    align-items: center; justify-content: center; 
+    overflow: hidden; color: #fff; text-align: center; 
+}
+
+.hero-zoom-bg { 
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+    background-size: cover; background-position: center; 
+    animation: zoom 20s infinite alternate; z-index: 1; 
+}
+
+@keyframes zoom { from { transform: scale(1); } to { transform: scale(1.1); } }
+
+.hero-section::after { 
+    content: ""; position: absolute; top: 0; left: 0; 
+    width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2; 
+}
+
+.hero-text { position: relative; z-index: 3; padding: 20px; }
+
+/* --- 5. SCROLL REVEAL EFFECT --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    visibility: hidden;
+}
+
+.reveal.active { opacity: 1; transform: translateY(0); visibility: visible; }
+
+/* --- 6. MOBILE NAVIGATION (LOGO RIGHT, MENU LEFT) --- */
+@media (max-width: 768px) {
+    .main-nav { position: relative; padding: 15px 5%; }
+    
+    /* Swap positions: Logo Kanan, Menu Kiri */
+    .nav-container { flex-direction: row-reverse; }
+    .logo-area { order: 1; }
+    .menu-toggle { display: block; order: 2; }
+    
+    /* Sembunyikan nav links bawaan container */
+    .nav-container > .nav-links { display: none; }
+
+    /* Sidebar Mobile tetap muncul dari Kiri */
+    .nav-content {
+        position: fixed; top: 0; left: -100%; width: 280px; height: 100vh;
+        background: #fff; z-index: 9999; transition: 0.4s; padding: 20px;
+        box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+        display: block;
+    }
+    
+    .nav-content.active { left: 0; }
+    
+    .nav-overlay { 
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+        background: rgba(0,0,0,0.5); z-index: 9998; display: none; 
+    }
+    
+    .nav-overlay.active { display: block; }
+
+    .mobile-header { display: block; margin-bottom: 25px; }
+    .close-menu { text-align: right; font-size: 24px; cursor: pointer; color: #888; }
+    
+    .search-box input { 
+        width: 100%; padding: 12px 20px; background: #f0f0f0; 
+        border: none; border-radius: 25px; outline: none; 
+    }
+
+    /* Vertical Links in Sidebar */
+    .nav-content .nav-links { 
+        display: flex !important; flex-direction: column; 
+        gap: 0; width: 100%; 
+    }
+    
+    .nav-content .nav-links a { 
+        padding: 15px 0; border-bottom: 1px solid #f5f5f5; 
+        width: 100%; display: block; font-size: 15px; 
+    }
+
+    /* Mobile Dropdown Logic */
+    .dropdown-content { 
+        position: static !important; display: none !important; 
+        box-shadow: none !important; background: #fafafa !important; 
+        padding-left: 20px !important; border-top: none; 
+        opacity: 1; transform: none;
+    }
+    
+    .dropdown.open .dropdown-content { display: block !important; }
+    .dropdown.open .icon-arrow { display: none; }
+    .dropdown.open .icon-close { 
+        display: inline-block !important; 
+        color: #e74c3c; margin-left: 8px; 
+    }
+}
+
+/* --- 7. GRID & SECTIONS --- */
+.container { max-width: 1200px; margin: auto; padding: 0 5%; }
+.py-5 { padding: 80px 0; }
+
+.grid-services { 
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 25px; margin-top: 40px; 
+}
+
+.s-card { 
+    position: relative; height: 450px; border-radius: 15px; 
+    overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+    transition: transform 0.4s ease;
+}
+
+.s-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+.s-card:hover img { transform: scale(1.1); }
+.s-card:hover { transform: translateY(-10px); }
+
+.s-content { 
+    position: absolute; bottom: 0; width: 100%; padding: 30px; 
+    background: linear-gradient(transparent, rgba(0,0,0,0.9)); color: #fff; 
+}
+
+.grid-features { 
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 30px; margin-top: 40px; 
+}
+
+.feature-item { 
+    padding: 30px; background: #f9f9f9; border-radius: 10px; 
+    text-align: center; transition: 0.3s; 
+}
+
+.feature-item i { font-size: 40px; color: #2c5a5e; margin-bottom: 20px; }
+
+/* --- 8. STATS & FOOTER --- */
+.stats-bar { background: #2c5a5e; color: white; padding: 60px 0; }
+.grid-stats { 
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 20px; text-align: center; 
+}
+
+.site-footer { background: #1a1a1a; color: #bbb; padding: 60px 5% 20px; margin-top: 50px; }
+.footer-logo { width: 150px; filter: brightness(0) invert(1); margin-bottom: 20px; }
+
+.social-links { display: flex; gap: 15px; margin-top: 20px; }
+.social-links a { color: #fff; font-size: 18px; transition: 0.3s; }
+.social-links a:hover { color: #2c5a5e; }
+
+.float-btn { 
+    position: fixed; right: 20px; width: 50px; height: 50px; 
+    border-radius: 50%; color: #fff !important; display: flex; 
+    align-items: center; justify-content: center; z-index: 1000; 
+}
+
+.wa { bottom: 20px; background: #25d366; }
+.ig { bottom: 80px; background: #e1306c; }
+
+.btn-main { 
+    display: inline-block; padding: 15px 40px; background: #2c5a5e; 
+    color: white !important; border-radius: 30px; font-weight: 700; 
+    margin-top: 20px; transition: 0.3s; 
+}
+/* =========================================
+   PERKECIL UKURAN NAVBAR (DESKTOP & MOBILE)
+   ========================================= */
+
+/* 1. Mengecilkan tinggi navbar dengan mengurangi padding */
+.main-nav {
+    padding: 5px 5% !important; /* Nilai awal 15px, diubah ke 5px agar ramping */
+}
+
+/* 2. Mengecilkan ukuran logo */
+.logo-area img {
+    width: 110px !important; /* Nilai awal 140px, diperkecil agar tidak menarik tinggi navbar */
+    height: auto;
+}
+
+/* 3. Mengecilkan ukuran font menu agar seimbang */
+.nav-links a {
+    font-size: 11px !important; /* Nilai awal 13px */
+    letter-spacing: 0.5px;
+}
+
+/* 4. Penyesuaian khusus untuk versi Mobile */
+@media (max-width: 768px) {
+    .main-nav {
+        padding: 8px 5% !important; /* Sedikit lebih besar dari desktop agar mudah disentuh */
+    }
+    
+    .logo-area img {
+        width: 90px !important; /* Logo lebih kecil lagi untuk layar HP */
+    }
+    
+    .menu-toggle {
+        font-size: 20px !important; /* Ikon hamburger diperkecil sedikit */
+    }
+}
+/* =========================================
+   EDIT UKURAN IKON MENU (GARIS 3) MOBILE
+   ========================================= */
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        /* Ubah angka di bawah untuk memperbesar/memperkecil */
+        font-size: 34px !important; 
+        
+        /* Opsional: Mengatur ketebalan garis ikon */
+        font-weight: bold !important; 
+        
+        /* Opsional: Memberi ruang klik yang lebih luas tanpa memperbesar ikon */
+        padding: 10px !important; 
+        
+        
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+/* =========================================
+   HAPUS EFEK KLIK PADA IKON MENU MOBILE
+   ========================================= */
+
+.menu-toggle {
+    /* 1. Menghapus highlight warna biru/abu-abu saat disentuh di HP */
+    -webkit-tap-highlight-color: transparent !important;
+    
+    /* 2. Menghapus garis kotak (outline) saat ikon diklik */
+    outline: none !important;
+    
+    /* 3. Menghapus bayangan atau efek fokus browser */
+    box-shadow: none !important;
+    
+    /* 4. Memastikan kursor tetap pointer (untuk desktop) */
+    cursor: pointer;
+    
+    /* 5. Menghilangkan transisi background yang tidak diinginkan */
+    background: none !important;
+}
+
+/* Menghapus efek hover jika ada latar belakang yang berubah */
+.menu-toggle:hover, 
+.menu-toggle:focus, 
+.menu-toggle:active {
+    background: none !important;
+    color: inherit; /* Tetap menggunakan warna asli ikon */
+}
+
+/* =========================================
+   MEMPERBESAR FONT HERO SECTION
+   ========================================= */
+
+/* 1. Memperbesar Judul Utama (Your Building is...) */
+.hero-title {
+    /* Menggunakan clamp agar otomatis mengecil di HP dan membesar di Layar Lebar */
+    /* 5rem = ukuran minimal, 12vw = ukuran fleksibel, 8rem = ukuran maksimal */
+    font-size: clamp(3.5rem, 12vw, 8.5rem) !important; 
+    
+    /* Font-weight 800 atau 900 membuat tulisan lebih tebal dan tegas */
+    font-weight: 800 !important; 
+    
+    /* Line-height kecil (0.8 - 0.9) membuat teks menumpuk rapat khas desain modern */
+    line-height: 1 !important; 
+    
+    /* Letter-spacing negatif merapatkan jarak antar huruf agar terlihat solid */
+    letter-spacing: -3px !important;
+    
+    margin-bottom: 40px !important;
+    text-transform: none; /* Sesuai gambar: Huruf kapital hanya di awal kata */
+}
+
+/* 2. Memperbesar Nama Perusahaan di Atas Judul */
+.company-name {
+    font-size: 18px !important; 
+    font-weight: 700 !important;
+    letter-spacing: 3px !important; /* Jarak antar huruf lebar untuk kesan elegan */
+    margin-bottom: 25px !important;
+}
+
+/* 3. Memperbesar Teks Deskripsi/Layanan di Bawah */
+.hero-services {
+    font-size: 20px !important; 
+    max-width: 700px !important; /* Supaya teks tidak terlalu panjang ke kanan */
+    line-height: 1.62 !important;
+    font-weight: 500 !important;
+    opacity: 1 !important; /* Memastikan warna putih terlihat tajam */
+}
+
+/* --- PENYESUAIAN KHUSUS MOBILE --- */
+@media (max-width: 768px) {
+    .hero-title {
+        /* Ukuran judul saat di HP */
+        font-size: 4rem !important; 
+        letter-spacing: -1px !important;
+    }
+    
+    .hero-services {
+        font-size: 15px !important;
+    }
+}
+/* =========================================
+   PERBAIKAN UKURAN FONT KHUSUS DESKTOP
+   ========================================= */
+
+@media (min-width: 992px) {
+    /* Membatasi ukuran maksimal agar tidak menutupi seluruh layar desktop */
+    .hero-title {
+        font-size: 4rem !important; /* Ukuran ideal untuk layar monitor */
+        line-height: 0.9 !important;
+        letter-spacing: -2px !important;
+        margin-bottom: 25px !important;
+    }
+
+    .company-name {
+        font-size: 16px !important;
+        margin-bottom: 15px !important;
+    }
+
+    .hero-services {
+        font-size: 16px !important;
+        max-width: 600px !important;
+        align-items: center !important;
+        
+    }
+}
+
+/* Penyesuaian untuk layar sangat lebar (Ultra Wide) */
+@media (min-width: 1400px) {
+    .hero-title {
+        font-size: 6.5rem !important;
+    }
+}
+/* ============================================================
+   FIX FINAL: HERO TITLE MOBILE OPTIMIZATION (LANGSUNG TEMPEL)
+   ============================================================ */
+
+@media (max-width: 768px) {
+    /* 1. Pengaturan Judul Utama */
+    .hero-title, .hero-text h1 {
+        font-family: 'Montserrat', sans-serif !important;
+        /* Ukuran font ideal: tidak memenuhi layar tapi tetap menonjol */
+        font-size: 2.6rem !important; 
+        font-weight: 800 !important;
+        /* Line height 1.1 mencegah huruf bawah terpotong di HP */
+        line-height: 1.2 !important; 
+        letter-spacing: -1px !important;
+        /* Mematikan paksaan huruf kapital semua */
+        text-transform: none !important; 
+        text-align: center !important;
+        color: #ffffff !important;
+        display: block !important;
+        width: 100% !important;
+        /* Jarak simetris: 15px ke atas (company), 15px ke bawah (services) */
+        margin: 15px 0 !important;
+        padding: 0 10px !important;
+        /* Menghilangkan efek bayangan teks yang berat */
+        text-shadow: 2px 2px 10px rgba(0,0,0,0.3) !important;
+    }
+
+    /* 2. Pengaturan Nama Perusahaan (Di Atas Judul) */
+    .company-name {
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        letter-spacing: 2px !important;
+        text-transform: uppercase !important;
+        margin-bottom: 0 !important; /* Margin diatur oleh .hero-title */
+        opacity: 0.9;
+        text-align: center !important;
+    }
+
+    /* 3. Pengaturan Deskripsi Layanan (Di Bawah Judul) */
+    .hero-services {
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+        font-weight: 400 !important;
+        max-width: 90% !important;
+        margin: 0 auto !important;
+        text-align: center !important;
+        opacity: 0.85;
+        /* Menghilangkan border putih jika masih tersisa */
+        border: none !important;
+        padding-top: 0 !important;
+    }
+
+    /* 4. Menghapus Efek Klik/Tap Highlight secara menyeluruh */
+    .hero-text, .hero-title, .company-name {
+        -webkit-tap-highlight-color: transparent !important;
+        outline: none !important;
+        user-select: none !important;
+    }
+}
+
+/* Penyesuaian khusus untuk layar HP yang sangat kecil (iPhone SE dsb) */
+@media (max-width: 380px) {
+    .hero-title, .hero-text h1 {
+        font-size: 2.1rem !important;
+    }
+}
+
+/* --- PORTFOLIO SLIDER STYLES --- */
+.portfolio-swiper {
+    padding: 20px 0 50px 0 !important;
+}
+
+.portfolio-item {
+    border-radius: 15px;
+    overflow: hidden;
+    height: 400px; /* Tinggi slide */
+    position: relative;
+}
+
+.portfolio-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Custom Tombol Navigasi */
+.swiper-button-next, .swiper-button-prev {
+    color: #2c5a5e !important;
+    background: rgba(255, 255, 255, 0.9);
+    width: 45px !important;
+    height: 45px !important;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.swiper-button-next:after, .swiper-button-prev:after {
+    font-size: 18px !important;
+    font-weight: bold;
+}
+
+.swiper-pagination-bullet-active {
+    background: #2c5a5e !important;
+}
+
+/* Overlay Info (Sama seperti sebelumnya) */
+.portfolio-overlay {
+    position: absolute;
+    bottom: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(transparent, rgba(44, 90, 94, 0.9));
+    display: flex; align-items: flex-end; padding: 25px;
+    opacity: 0; transition: 0.3s;
+}
+
+.portfolio-item:hover .portfolio-overlay { opacity: 1; }
+.portfolio-info h4 { color: #fff; font-size: 18px; }
+.portfolio-info span { color: #ddd; font-size: 12px; text-transform: uppercase; }
+
+@media (max-width: 768px) {
+    .portfolio-item { height: 320px; }
+}
